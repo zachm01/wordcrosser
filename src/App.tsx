@@ -1,14 +1,30 @@
 import { useState } from 'react'
-import { Cell } from './cell'
+import { Puzzle } from './puzzle'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [rowTexts, setRowTexts] = useState([
+    '            ',
+    '            ',
+    '            ',
+    '            ',
+    '            ',
+    '            ',
+    '            ',
+    '            ',
+    '            ',
+    '            ',
+    '            ',
+    '            ',
+    '            ',
+    '            ',
+  ])
 
   return (
-    <div>
-      <Cell content="a" />
-      <Cell content="b" />
-      <Cell content="c" />
+    <div className='flex items-center justify-center'>
+      <Puzzle
+        boxDims={[11, 11]}
+        rowTexts={rowTexts}
+      />
     </div>
   )
 }
