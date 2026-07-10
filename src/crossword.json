@@ -1,0 +1,113 @@
+{
+  "dimensions": {
+    "numRows": 9,
+    "numCellsPerRow": 6
+  },
+  "title": "Rounding Error",
+  "grid": [
+    "     .",
+    "..   .",
+    "     .",
+    "     .",
+    "    ..",
+    "    ..",
+    "   ...",
+    "     .",
+    "     ."
+  ],
+  "answers": [
+    "venus.",
+    "..ens.",
+    "oleds.",
+    "redas.",
+    "ball..",
+    "aped..",
+    "cho...",
+    "heirs.",
+    "erdos."
+  ],
+  "clueSets": [
+    {
+      "name": "Clockwise",
+      "abbr": "CW",
+      "clues": [
+        {
+          "number": 1,
+          "text": "Snake sound",
+          "numCell": "7,1"
+        },
+        {
+          "number": 2,
+          "text": "\"Mr. [5-CW], tear down this [8-I]\" (Quote by ________ Reagan, in a world where everything is circular)",
+          "numCell": "7,2"
+        },
+        {
+          "number": 3,
+          "text": "Thin and pointy, maybe",
+          "numCell": "0,3"
+        },
+        {
+          "number": 4,
+          "text": "Instructions seen on a parkour course, perhaps",
+          "numCell": "2,4"
+        },
+        {
+          "number": 5,
+          "text": "See [2-CW]",
+          "numCell": "2,5"
+        }
+      ]
+    },
+    {
+      "name": "Inward",
+      "abbr": "I",
+      "clues": [
+        {
+          "number": 5,
+          "text": "Displays that use 60% less power than LCDs",
+          "numCell": "2,5"
+        },
+        {
+          "number": 6,
+          "text": "\"As ______ a beet\"",
+          "numCell": "3,5"
+        },
+        {
+          "number": 7,
+          "text": "See [2-CW]",
+          "numCell": "4,5"
+        },
+        {
+          "number": 8,
+          "text": "Poorly parrotted",
+          "numCell": "5,5"
+        },
+        {
+          "number": 9,
+          "text": "Brief Harry Potter love interest",
+          "numCell": "6,5"
+        },
+        {
+          "number": 10,
+          "text": "",
+          "numCell": "7,5"
+        },
+        {
+          "number": 11,
+          "text": "Paul considered the Kevin Bacon of mathematics",
+          "numCell": "8,5"
+        },
+        {
+          "number": 12,
+          "text": "Planet whose surface is permanently obscured by clouds",
+          "numCell": "0,5"
+        },
+        {
+          "number": 13,
+          "text": "They might stand for units of force",
+          "numCell": "1,3"
+        }
+      ]
+    }
+  ]
+}
