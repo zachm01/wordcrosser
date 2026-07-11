@@ -3,7 +3,7 @@
     "numRows": 9,
     "numCellsPerRow": 6
   },
-  "title": "Rounding Error",
+  "title": "Vicious Circle",
   "grid": [
     "     .",
     "..   .",
@@ -26,6 +26,9 @@
     "heirs.",
     "erdos."
   ],
+  "thickWallCells": [
+    "0,3"
+  ],
   "clueSets": [
     {
       "name": "Clockwise",
@@ -34,27 +37,32 @@
         {
           "number": 1,
           "text": "Snake sound",
-          "numCell": "7,1"
+          "numCell": "7,1",
+          "allCells": ["7,1", "8,1", "0,1", "1,1", "2,1", "3,1"]
         },
         {
           "number": 2,
-          "text": "\"Mr. [5-CW], tear down this [8-I]\" (Quote by ________ Reagan, in a world where everything is circular)",
-          "numCell": "7,2"
+          "text": "\"Mr. [5-CW], tear down this [7-I]\" (Quote by ________ Reagan, in a world where everything is circular)",
+          "numCell": "7,2",
+          "allCells": ["7,2", "8,2", "0,2", "1,2", "2,2", "3,2", "4,2", "5,2"]
         },
         {
           "number": 3,
           "text": "Thin and pointy, maybe",
-          "numCell": "0,3"
+          "numCell": "0,3",
+          "allCells": ["0,3", "1,3", "2,3", "4,3", "5,3", "6,3", "7,3", "8,3"]
         },
         {
           "number": 4,
-          "text": "Instructions seen on a parkour course, perhaps",
-          "numCell": "2,4"
+          "text": "Instruction seen on a parkour course, perhaps",
+          "numCell": "2,4",
+          "allCells": ["2,4", "3,4", "4,4", "5,4", "6,4", "7,4", "8,4", "0,4"]
         },
         {
           "number": 5,
-          "text": "See [2-CW]",
-          "numCell": "2,5"
+          "text": "\"Mr. ________, tear down this [7-I]\" (Quote by [2-CW] Reagan, in a world where everything is circular)",
+          "numCell": "2,5",
+          "allCells": ["2,5", "3,5", "4,5", "5,5", "6,5", "7,5", "8,5", "0,5"]
         }
       ]
     },
@@ -74,7 +82,7 @@
         },
         {
           "number": 7,
-          "text": "See [2-CW]",
+          "text": "\"Mr. [5-CW], tear down this ____\" (Quote by [2-CW] Reagan, in a world where everything is circular)",
           "numCell": "4,5"
         },
         {
@@ -89,7 +97,7 @@
         },
         {
           "number": 10,
-          "text": "",
+          "text": "Loinfruits",
           "numCell": "7,5"
         },
         {

@@ -72,8 +72,8 @@ export function RoundCell(props: RoundCellProps) {
       {
         (number != undefined) && (
           <Text
-            x={START_X + numRadius * Math.cos(angleRadians(j <= 2 ? 5 : 3)) - CENTER_OFFSET_X}
-            y={START_Y + numRadius * Math.sin(angleRadians(j <= 2 ? 5 : 3)) - CENTER_OFFSET_Y}
+            x={START_X + numRadius * Math.cos(angleRadians(j <= 3 ? 5 : 3)) - CENTER_OFFSET_X}
+            y={START_Y + numRadius * Math.sin(angleRadians(j <= 3 ? 5 : 3)) - CENTER_OFFSET_Y}
             text={number.toString()}
           />
         )

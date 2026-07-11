@@ -19,10 +19,7 @@ function App() {
   clueSets.forEach(clueSet => {
     clueSet.clues.forEach(clue => {
       Object.defineProperty(numberedCells, clue.numCell, {
-        value: clue.number,
-        writable: true,
-        enumerable: true,
-        configurable: true,
+        value: clue.number, writable: true, enumerable: true, configurable: true,
       })
     })
   })
@@ -51,7 +48,7 @@ function App() {
       <div className="flex flex-row items-start justify-center py-6">
 
         <div>
-          <div className="w-[32rem] h-28">
+          <div className="w-[32rem] h-32">
             <div className={highlightedClue != -1 ? "w-full p-2 bg-blue-300" : ""}>
               {
                 clueSets.map(clueSet => {
@@ -87,6 +84,7 @@ function App() {
                 numberedCells={numberedCells}
                 selectedCell={selectedCell}
                 setSelectedCell={setSelectedCell}
+                thickWallCells={puzzle.thickWallCells}
               />
             </Layer>
           </Stage>

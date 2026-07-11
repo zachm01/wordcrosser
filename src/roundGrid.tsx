@@ -1,4 +1,5 @@
 import { RoundCell } from "./roundCell"
+import { useState } from "react"
 
 
 const LEVEL_WIDTH = 40
@@ -8,8 +9,7 @@ const ARC_ANGLE = 360 / NUM_ROWS
 const BLANK_CHAR = "."
 
 const selectedFill = "#fedd3a"
-const rowSelectedFill = "#8cfb9e"
-const colSelectedFill = "#8cd4fb"
+const adjSelectedFill = "#8cd4fb"
 
 
 interface RoundGridProps {
@@ -23,15 +23,18 @@ interface RoundGridProps {
   rowSize?: number;
   arcAngle?: number;
   blankChar?: string;
+  thickWallCells?: string[]
 }
 
 export function RoundGrid(props: RoundGridProps) {
+  const [workingDirection, setWorkingDirection] = useState<string>("clockwise")
   const rowSize = props.rowSize ?? ROW_SIZE
   const arcAngle = props.arcAngle ?? ARC_ANGLE
   const blankChar = props.blankChar ?? BLANK_CHAR
   const numRows = props.numRows ?? NUM_ROWS
   const levelWidth = props.levelWidth ?? LEVEL_WIDTH
   const numberedCells = props.numberedCells
+  const thickWallCells = props.thickWallCells
   const [selected, setSelected] = [props.selectedCell, props.setSelectedCell]
   // const [rowWords, setRowWords] = useState<string[]>(props.rowWords.map(word => word.toUpperCase()))
   const rowWords = props.rowWords
@@ -71,9 +74,16 @@ export function RoundGrid(props: RoundGridProps) {
       let newRowWords = changeLetter(selectedI, selectedJ, letter)
       setRowWords(newRowWords)
 
-      if (rowWords[(selectedI + 1) % numRows][selectedJ] !== blankChar) {
-        setSelected(`${(selectedI + 1) % numRows},${selectedJ}`)
+      if (workingDirection === "clockwise") {
+        if (rowWords[(selectedI + 1) % numRows][selectedJ] !== blankChar) {
+          setSelected(`${(selectedI + 1) % numRows},${selectedJ}`)
+        }
+      } else if (workingDirection === "inward") {
+        if (rowWords[selectedI][(selectedJ - 1 + rowSize) % rowSize] !== blankChar) {
+          setSelected(`${selectedI},${(selectedJ - 1 + rowSize) % rowSize}`)
+        }
       }
+
     }
   }
 
@@ -85,8 +95,14 @@ export function RoundGrid(props: RoundGridProps) {
       let newRowWords = changeLetter(selectedI, selectedJ, " ")
       setRowWords(newRowWords)
 
-      if (rowWords[(selectedI - 1 + numRows) % numRows][selectedJ] !== blankChar) {
-        setSelected(`${(selectedI - 1 + numRows) % numRows},${selectedJ}`)
+      if (workingDirection === "clockwise") {
+        if (rowWords[(selectedI - 1 + numRows) % numRows][selectedJ] !== blankChar) {
+          setSelected(`${(selectedI - 1 + numRows) % numRows},${selectedJ}`)
+        }
+      } else if (workingDirection === "inward") {
+        if (rowWords[selectedI][(selectedJ + 1 + rowSize) % rowSize] !== blankChar) {
+          setSelected(`${selectedI},${(selectedJ + 1 + rowSize) % rowSize}`)
+        }
       }
     }
   }
@@ -95,8 +111,17 @@ export function RoundGrid(props: RoundGridProps) {
   
   const handleSelect = (i: number, j: number) => {
     if (rowWords[i].charAt(j) !== blankChar) {
-      if (selected === `${i},${j}`) { setSelected(undefined) }
-      else { setSelected(`${i},${j}`) }
+      if (selected === `${i},${j}` && workingDirection === "clockwise") {
+        setWorkingDirection("inward")
+      }
+      else if (selected === `${i},${j}` && workingDirection === "inward") {
+        setWorkingDirection("clockwise")
+      }
+      else {
+        setSelected(`${i},${j}`)
+      }
+    } else {
+      setSelected(undefined)
     }
   }
 
@@ -117,8 +142,8 @@ export function RoundGrid(props: RoundGridProps) {
                   let fill = "#ffffff"
                   if (isBlank) { fill = "#000000" }
                   else if (isSelected) { fill = selectedFill }
-                  else if (selected?.split(',')[0] == i.toString()) { fill = colSelectedFill }
-                  else if (selected?.split(',')[1] == j.toString()) { fill = rowSelectedFill }
+                  else if (selected?.split(',')[0] == i.toString() && workingDirection == "inward") { fill = adjSelectedFill }
+                  else if (selected?.split(',')[1] == j.toString() && workingDirection == "clockwise") { fill = adjSelectedFill }
 
                   return (
                     <RoundCell
@@ -131,6 +156,7 @@ export function RoundGrid(props: RoundGridProps) {
                       fill={fill}
                       handleSelect={handleSelect}
                       number={Object.keys(numberedCells).includes(address) ? numberedCells[address] : undefined}
+                      thickWall={thickWallCells.includes(address)}
                     />
                   )
                 })
