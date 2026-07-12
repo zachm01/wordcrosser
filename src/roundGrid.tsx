@@ -34,9 +34,19 @@ export function RoundGrid(props: RoundGridProps) {
     // if e.key is a single alphabetical character or whitespace
     if (/^[a-zA-Z\s]$/.test(e.key)) { typeLetter(e.key) }
     // if the user is backspacing
-    if (e.key === "Backspace") { deleteLetter() }
-    if (e.key == "ArrowLeft") { moveSelected(workingDirection === "clockwise" ? "clockwise" : "outward") }
-    if (e.key == "ArrowRight") { moveSelected(workingDirection === "clockwise" ? "anticlockwise" : "inward") }
+
+    switch (e.key) {
+      case "Backspace":
+        deleteLetter(); break;
+      case "ArrowLeft":
+        moveSelected(workingDirection === "clockwise" ? "clockwise" : "outward"); break;
+      case "ArrowRight":
+        moveSelected(workingDirection === "clockwise" ? "anticlockwise" : "inward"); break;
+      case "ArrowUp":
+        setWorkingDirection(workingDirection === "clockwise" ? "inward" : "clockwise"); break;
+      case "ArrowDown":
+        setWorkingDirection(workingDirection === "clockwise" ? "inward" : "clockwise"); break;
+    }
 
     window.removeEventListener('keydown', keydownHandler)
   }
