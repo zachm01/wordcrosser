@@ -37,7 +37,6 @@ interface RoundCellProps {
 export interface Clue {
   number: number;
   text: string;
-  numCell: string;
   allCells: string[];
   set: string;
 }
