@@ -5,8 +5,10 @@ interface PuzzleContext {
   setGrid: React.Dispatch<SetStateAction<string[]>>;
   selectedCell: string;
   setSelectedCell: React.Dispatch<SetStateAction<string>>;
-  highlightedClue: number;
-  setHighlightedClue: React.Dispatch<SetStateAction<number>>;
+  highlightedClues: string[];
+  setHighlightedClues: React.Dispatch<SetStateAction<string[]>>;
+  workingDirection: string;
+  setWorkingDirection: React.Dispatch<SetStateAction<string>>;
 }
 
 interface RoundGridProps {
@@ -32,11 +34,12 @@ interface RoundCellProps {
   thickWall?: boolean;
 }
 
-interface Clue {
+export interface Clue {
   number: number;
   text: string;
   numCell: string;
-  allCells?: string[];
+  allCells: string[];
+  set: string;
 }
 
 interface ClueSet {

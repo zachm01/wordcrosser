@@ -10,34 +10,46 @@ import type { PuzzleContext } from './props'
 function App() {
   const [grid, setGrid] = useState<string[]>(puzzle.grid.map(row => row.split('').reverse().join('').toUpperCase()))
   const [selectedCell, setSelectedCell] = useState<string>("")
-  const [highlightedClue, setHighlightedClue] = useState<number>(-1)
+  const [highlightedClues, setHighlightedClues] = useState<string[]>([])
+  const [workingDirection, setWorkingDirection] = useState<string>("clockwise")
 
   const context: PuzzleContext = {
     grid, setGrid,
     selectedCell, setSelectedCell,
-    highlightedClue, setHighlightedClue
+    highlightedClues, setHighlightedClues,
+    workingDirection, setWorkingDirection
   }
 
   const answers = puzzle.answers.map(row => row.split('').reverse().join('').toUpperCase())
-  const clueSets = puzzle.clueSets
-
+  const clues = puzzle.clueSets
 
   let numberedCells = {}
 
-  clueSets.forEach(clueSet => {
+  clues.forEach(clueSet => {
     clueSet.clues.forEach(clue => {
-      Object.defineProperty(numberedCells, clue.numCell, {
+      Object.defineProperty(numberedCells, clue.allCells[0], {
         value: clue.number, writable: true, enumerable: true, configurable: true,
       })
     })
   })
 
   useEffect(() => {
-    if (Object.keys(numberedCells).includes(selectedCell)) {
-      setHighlightedClue(numberedCells[selectedCell])
-    } else {
-      setHighlightedClue(-1)
+    let newHighlightedClues = []
+    for (let clueSet of clues) {
+      for (let clue of clueSet.clues) {
+        if (clue.allCells.includes(selectedCell)) {
+          newHighlightedClues.push(`${clue.number}-${clue.set}`)
+        }
+      }
     }
+    
+    setHighlightedClues(newHighlightedClues)
+
+    // if (Object.keys(numberedCells).includes(selectedCell)) {
+    //   setHighlightedClue(numberedCells[selectedCell])
+    // } else {
+    //   setHighlightedClue(-1)
+    // }
   }, [selectedCell])
 
   useEffect(() => {
@@ -56,12 +68,12 @@ function App() {
       <div className="flex flex-row items-start justify-center py-6">
 
         <div>
-          <div className="w-[32rem] h-32">
-            <div className={highlightedClue != -1 ? "w-full p-2 bg-blue-300" : ""}>
+          <div className="w-[32rem] h-24">
+            <div className={highlightedClues.length != 0 ? "w-full p-2 bg-blue-300" : ""}>
               {
-                clueSets.map(clueSet => {
+                clues.map(clueSet => {
                   for (let clue of clueSet.clues) {
-                    if (clue.numCell === selectedCell) {
+                    if (clue.allCells.includes(selectedCell) && clue.set === workingDirection) {
                       return (
                         <>
                           <div className="font-bold text-md">
@@ -97,7 +109,7 @@ function App() {
 
         <ClueList
           puzzleContext={context}
-          clueSets={clueSets}
+          clueSets={clues}
         />
       </div>
     </>
