@@ -1,21 +1,10 @@
 import { Group, Arc, Text } from "react-konva";
+import { type RoundCellProps }  from "./props";
 
 const START_X = -500
 const START_Y = -130
 const CENTER_OFFSET_X = 5
 const CENTER_OFFSET_Y = 5
-
-interface RoundCellProps {
-  i: number;
-  j: number;
-  arcAngle: number;
-  levelWidth: number;
-  char: string;
-  fill: string;
-  handleSelect: (i: number, j: number) => void;
-  number?: number | undefined;
-  thickWall?: boolean
-}
 
 export function RoundCell(props: RoundCellProps) {
   const i = props.i;

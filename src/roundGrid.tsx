@@ -1,5 +1,6 @@
 import { RoundCell } from "./roundCell"
 import { useState } from "react"
+import { type RoundGridProps } from "./props"
 
 
 const LEVEL_WIDTH = 40
@@ -11,21 +12,6 @@ const BLANK_CHAR = "."
 const selectedFill = "#fedd3a"
 const adjSelectedFill = "#8cd4fb"
 
-
-interface RoundGridProps {
-  rowWords: string[];
-  setRowWords: any;
-  numberedCells: object;
-  selectedCell: string;
-  setSelectedCell: any;
-  numRows?: number;
-  levelWidth?: number;
-  rowSize?: number;
-  arcAngle?: number;
-  blankChar?: string;
-  thickWallCells?: string[]
-}
-
 export function RoundGrid(props: RoundGridProps) {
   const [workingDirection, setWorkingDirection] = useState<string>("clockwise")
   const rowSize = props.rowSize ?? ROW_SIZE
@@ -35,10 +21,10 @@ export function RoundGrid(props: RoundGridProps) {
   const levelWidth = props.levelWidth ?? LEVEL_WIDTH
   const numberedCells = props.numberedCells
   const thickWallCells = props.thickWallCells
-  const [selected, setSelected] = [props.selectedCell, props.setSelectedCell]
+  const [selected, setSelected] = [props.puzzleContext.selectedCell, props.puzzleContext.setSelectedCell]
   // const [rowWords, setRowWords] = useState<string[]>(props.rowWords.map(word => word.toUpperCase()))
-  const rowWords = props.rowWords
-  const setRowWords = props.setRowWords
+  const rowWords = props.puzzleContext.grid
+  const setRowWords = props.puzzleContext.setGrid
   
   if (rowWords.length < rowSize) { setRowWords(rowWords.concat(blankChar.repeat(rowSize - rowWords.length))) }
   

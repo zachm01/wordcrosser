@@ -1,23 +1,10 @@
-interface CluesProps {
-  clueSets: {
-    name: string;
-    abbr: string;
-    clues: {
-      number: number;
-      text: string;
-      numCell: string;
-    }[]
-  }[]
-  highlightedClue: number
-  setHighlightedClue: any
-  setSelectedCell: any
-}
+import { type CluesProps } from "./props"
 
 export function ClueList(props: CluesProps) {
   const clueSets = props.clueSets
-  const highlightedClue = props.highlightedClue
-  const setHighlightedClue = props.setHighlightedClue
-  const setSelectedCell = props.setSelectedCell
+  const highlightedClue = props.puzzleContext.highlightedClue
+  const setHighlightedClue = props.puzzleContext.setHighlightedClue
+  const setSelectedCell = props.puzzleContext.setSelectedCell
 
   return (
     <div className="flex flex-row items-start justify-center px-7">

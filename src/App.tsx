@@ -1,18 +1,26 @@
 import { RoundGrid } from './roundGrid'
 import { ClueList } from './clueList'
-import { Stage, Layer } from 'react-konva'
 
+import { Stage, Layer } from 'react-konva'
 import { useEffect, useState } from 'react'
 
 import puzzle from './crossword.json'
+import type { PuzzleContext } from './props'
 
 function App() {
-  const answers = puzzle.answers.map(row => row.split('').reverse().join('').toUpperCase())
   const [grid, setGrid] = useState<string[]>(puzzle.grid.map(row => row.split('').reverse().join('').toUpperCase()))
-  const clueSets = puzzle.clueSets
-
   const [selectedCell, setSelectedCell] = useState<string>("")
   const [highlightedClue, setHighlightedClue] = useState<number>(-1)
+
+  const context: PuzzleContext = {
+    grid, setGrid,
+    selectedCell, setSelectedCell,
+    highlightedClue, setHighlightedClue
+  }
+
+  const answers = puzzle.answers.map(row => row.split('').reverse().join('').toUpperCase())
+  const clueSets = puzzle.clueSets
+
 
   let numberedCells = {}
 
@@ -76,14 +84,11 @@ function App() {
           >
             <Layer>
               <RoundGrid
+                puzzleContext={context}
                 numRows={puzzle.dimensions.numRows}
                 rowSize={puzzle.dimensions.numCellsPerRow}
                 arcAngle={360 / puzzle.dimensions.numRows}
-                rowWords={grid}
-                setRowWords={setGrid}
                 numberedCells={numberedCells}
-                selectedCell={selectedCell}
-                setSelectedCell={setSelectedCell}
                 thickWallCells={puzzle.thickWallCells}
               />
             </Layer>
@@ -91,10 +96,8 @@ function App() {
         </div>
 
         <ClueList
+          puzzleContext={context}
           clueSets={clueSets}
-          highlightedClue={highlightedClue}
-          setHighlightedClue={setHighlightedClue}
-          setSelectedCell={setSelectedCell}
         />
       </div>
     </>
