@@ -1,11 +1,15 @@
 import { type CluesProps } from "./props"
 
 export function ClueList(props: CluesProps) {
-  const clueSets = props.clueSets
+  const clues = props.clues
   const highlightedClue = props.puzzleContext.highlightedClue
   const setSelectedCell = props.puzzleContext.setSelectedCell
   const workingDirection = props.puzzleContext.workingDirection
   const setWorkingDirection = props.puzzleContext.setWorkingDirection
+
+
+  let clueSets = Array.from(new Set(clues.map(clue => clue.set)))
+
 
   return (
     <div className="flex flex-row items-start justify-center px-7">
@@ -15,10 +19,11 @@ export function ClueList(props: CluesProps) {
             return (
               <div>
                 <div className="font-extrabold text-md py-2">
-                  {clueSet.name.toUpperCase()} ({clueSet.abbr.toUpperCase()})
+                  {clueSet.toUpperCase()}
                 </div>
                 {
-                  clueSet.clues.map(clue => {
+                  clues.map(clue => {
+                    if (clue.set != clueSet) { return }
                     return (
                       <div 
                         className={`
@@ -27,7 +32,7 @@ export function ClueList(props: CluesProps) {
                         `}
                         onClick={() => {
                           setSelectedCell(clue.allCells[0])
-                          setWorkingDirection(clueSet.name.toLowerCase())
+                          setWorkingDirection(clueSet.toLowerCase())
                         }}
                       >
                         <span className="w-5 flex justify-end font-bold">{clue.number}</span>

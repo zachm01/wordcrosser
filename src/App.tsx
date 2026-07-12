@@ -21,26 +21,22 @@ function App() {
   }
 
   const answers = puzzle.answers.map(row => row.split('').reverse().join('').toUpperCase())
-  const clues = puzzle.clueSets
+  const clues = puzzle.clues
 
   let numberedCells = {}
 
-  clues.forEach(clueSet => {
-    clueSet.clues.forEach(clue => {
-      Object.defineProperty(numberedCells, clue.allCells[0], {
-        value: clue.number, writable: true, enumerable: true, configurable: true,
-      })
+  clues.forEach(clue => {
+    Object.defineProperty(numberedCells, clue.allCells[0], {
+      value: clue.number, writable: true, enumerable: true, configurable: true,
     })
   })
 
   useEffect(() => {
-    for (let clueSet of clues) {
-      for (let clue of clueSet.clues) {
-        if (clue.set.toLowerCase() != workingDirection)  { continue }
-        if (clue.allCells.includes(selectedCell)) {
-          setHighlightedClue(`${clue.number}-${clue.set}`)
-          return
-        }
+    for (let clue of clues) {
+      if (clue.set.toLowerCase() != workingDirection)  { continue }
+      if (clue.allCells.includes(selectedCell)) {
+        setHighlightedClue(`${clue.number}-${clue.set}`)
+        return
       }
     }
     setHighlightedClue("")
@@ -65,18 +61,16 @@ function App() {
           <div className="w-[32rem] h-24">
             <div className={highlightedClue != "" ? "w-full p-2 bg-blue-300" : ""}>
               {
-                clues.map(clueSet => {
-                  for (let clue of clueSet.clues) {
-                    if (clue.allCells.includes(selectedCell) && clue.set === workingDirection) {
-                      return (
-                        <>
-                          <div className="font-bold text-md">
-                            {clue.number}-{clueSet.name.toUpperCase()}
-                          </div>
-                          {clue.text}
-                        </>
-                      )
-                    }
+                clues.map(clue => {
+                  if (clue.allCells.includes(selectedCell) && clue.set === workingDirection) {
+                    return (
+                      <>
+                        <div className="font-bold text-md">
+                          {clue.number}-{clue.set.toUpperCase()}
+                        </div>
+                        {clue.text}
+                      </>
+                    )
                   }
                 })
               }
@@ -103,7 +97,7 @@ function App() {
 
         <ClueList
           puzzleContext={context}
-          clueSets={clues}
+          clues={clues}
         />
       </div>
     </>

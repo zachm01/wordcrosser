@@ -42,15 +42,9 @@ export interface Clue {
   set: string;
 }
 
-interface ClueSet {
-  name: string;
-  abbr: string;
-  clues: Clue[];
-}
-
 interface CluesProps {
   puzzleContext: PuzzleContext;
-  clueSets: ClueSet[];
+  clues: Clue[];
 }
 
 export type { PuzzleContext, RoundGridProps, RoundCellProps, CluesProps }

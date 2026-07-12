@@ -29,116 +29,104 @@
   "thickWallCells": [
     "0,3"
   ],
-  "clueSets": [
+  "clues": [
     {
-      "name": "Clockwise",
-      "abbr": "CW",
-      "clues": [
-        {
-          "number": 1,
-          "text": "Snake sound",
-          "numCell": "7,1",
-          "allCells": ["7,1", "8,1", "0,1", "1,1", "2,1", "3,1"],
-          "set": "clockwise"
-        },
-        {
-          "number": 2,
-          "text": "\"Mr. [5-CW], tear down this [7-I]\" (Quote by ________ Reagan, in a world where everything is circular)",
-          "numCell": "7,2",
-          "allCells": ["7,2", "8,2", "0,2", "1,2", "2,2", "3,2", "4,2", "5,2"],
-          "set": "clockwise"
-        },
-        {
-          "number": 3,
-          "text": "Thin and pointy, maybe",
-          "numCell": "0,3",
-          "allCells": ["0,3", "1,3", "2,3", "4,3", "5,3", "6,3", "7,3", "8,3"],
-          "set": "clockwise"
-        },
-        {
-          "number": 4,
-          "text": "Instruction seen on a parkour course, perhaps",
-          "numCell": "2,4",
-          "allCells": ["2,4", "3,4", "4,4", "5,4", "6,4", "7,4", "8,4", "0,4"],
-          "set": "clockwise"
-        },
-        {
-          "number": 5,
-          "text": "\"Mr. ________, tear down this [7-I]\" (Quote by [2-CW] Reagan, in a world where everything is circular)",
-          "numCell": "2,5",
-          "allCells": ["2,5", "3,5", "4,5", "5,5", "6,5", "7,5", "8,5", "0,5"],
-          "set": "clockwise"
-        }
-      ]
+      "number": 1,
+      "text": "Snake sound",
+      "numCell": "7,1",
+      "allCells": ["7,1", "8,1", "0,1", "1,1", "2,1", "3,1"],
+      "set": "clockwise"
     },
     {
-      "name": "Inward",
-      "abbr": "I",
-      "clues": [
-        {
-          "number": 5,
-          "text": "Displays that use 60% less power than LCDs",
-          "numCell": "2,5",
-          "allCells": ["2,5", "2,4", "2,3", "2,2", "2,1"],
-          "set": "inward"
-        },
-        {
-          "number": 6,
-          "text": "\"As ______ a beet\"",
-          "numCell": "3,5",
-          "allCells": ["3,5", "3,4", "3,3", "3,2", "3,1"],
-          "set": "inward"
-        },
-        {
-          "number": 7,
-          "text": "\"Mr. [5-CW], tear down this ____\" (Quote by [2-CW] Reagan, in a world where everything is circular)",
-          "numCell": "4,5",
-          "allCells": ["4,5", "4,4", "4,3", "4,2"],
-          "set": "inward"
-        },
-        {
-          "number": 8,
-          "text": "Poorly parrotted",
-          "numCell": "5,5",
-          "allCells": ["5,5", "5,4", "5,3", "5,2"],
-          "set": "inward"
-        },
-        {
-          "number": 9,
-          "text": "Brief Harry Potter love interest",
-          "numCell": "6,5",
-          "allCells": ["6,5", "6,4", "6,3"],
-          "set": "inward"
-        },
-        {
-          "number": 10,
-          "text": "Princes and princesses",
-          "numCell": "7,5",
-          "allCells": ["7,5", "7,4", "7,3", "7,2", "7,1"],
-          "set": "inward"
-        },
-        {
-          "number": 11,
-          "text": "Paul considered the Kevin Bacon of mathematics",
-          "numCell": "8,5",
-          "allCells": ["8,5", "8,4", "8,3", "8,2", "8,1"],
-          "set": "inward"
-        },
-        {
-          "number": 12,
-          "text": "Planet whose surface is permanently obscured by clouds",
-          "numCell": "0,5",
-          "allCells": ["0,5", "0,4", "0,3", "0,2", "0,1"],
-          "set": "inward"
-        },
-        {
-          "number": 13,
-          "text": "They might represent sample size or units of force",
-          "numCell": "1,3",
-          "allCells": ["1,3", "1,2", "1,1"],
-          "set": "inward"
-        }
-      ]
+      "number": 2,
+      "text": "\"Mr. [5-CW], tear down this [7-I]\" (Quote by ________ Reagan, in a world where everything is circular)",
+      "numCell": "7,2",
+      "allCells": ["7,2", "8,2", "0,2", "1,2", "2,2", "3,2", "4,2", "5,2"],
+      "set": "clockwise"
+    },
+    {
+      "number": 3,
+      "text": "Thin and pointy, maybe",
+      "numCell": "0,3",
+      "allCells": ["0,3", "1,3", "2,3", "4,3", "5,3", "6,3", "7,3", "8,3"],
+      "set": "clockwise"
+    },
+    {
+      "number": 4,
+      "text": "Instruction seen on a parkour course, perhaps",
+      "numCell": "2,4",
+      "allCells": ["2,4", "3,4", "4,4", "5,4", "6,4", "7,4", "8,4", "0,4"],
+      "set": "clockwise"
+    },
+    {
+      "number": 5,
+      "text": "\"Mr. ________, tear down this [7-I]\" (Quote by [2-CW] Reagan, in a world where everything is circular)",
+      "numCell": "2,5",
+      "allCells": ["2,5", "3,5", "4,5", "5,5", "6,5", "7,5", "8,5", "0,5"],
+      "set": "clockwise"
+    },
+    {
+      "number": 5,
+      "text": "Displays that use 60% less power than LCDs",
+      "numCell": "2,5",
+      "allCells": ["2,5", "2,4", "2,3", "2,2", "2,1"],
+      "set": "inward"
+    },
+    {
+      "number": 6,
+      "text": "\"As ______ a beet\"",
+      "numCell": "3,5",
+      "allCells": ["3,5", "3,4", "3,3", "3,2", "3,1"],
+      "set": "inward"
+    },
+    {
+      "number": 7,
+      "text": "\"Mr. [5-CW], tear down this ____\" (Quote by [2-CW] Reagan, in a world where everything is circular)",
+      "numCell": "4,5",
+      "allCells": ["4,5", "4,4", "4,3", "4,2"],
+      "set": "inward"
+    },
+    {
+      "number": 8,
+      "text": "Poorly parrotted",
+      "numCell": "5,5",
+      "allCells": ["5,5", "5,4", "5,3", "5,2"],
+      "set": "inward"
+    },
+    {
+      "number": 9,
+      "text": "Brief Harry Potter love interest",
+      "numCell": "6,5",
+      "allCells": ["6,5", "6,4", "6,3"],
+      "set": "inward"
+    },
+    {
+      "number": 10,
+      "text": "Princes and princesses",
+      "numCell": "7,5",
+      "allCells": ["7,5", "7,4", "7,3", "7,2", "7,1"],
+      "set": "inward"
+    },
+    {
+      "number": 11,
+      "text": "Paul considered the Kevin Bacon of mathematics",
+      "numCell": "8,5",
+      "allCells": ["8,5", "8,4", "8,3", "8,2", "8,1"],
+      "set": "inward"
+    },
+    {
+      "number": 12,
+      "text": "Planet whose surface is permanently obscured by clouds",
+      "numCell": "0,5",
+      "allCells": ["0,5", "0,4", "0,3", "0,2", "0,1"],
+      "set": "inward"
+    },
+    {
+      "number": 13,
+      "text": "They might represent sample size or units of force",
+      "numCell": "1,3",
+      "allCells": ["1,3", "1,2", "1,1"],
+      "set": "inward"
     }
   ]
 }
