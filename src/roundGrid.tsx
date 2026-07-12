@@ -2,7 +2,6 @@ import { RoundCell } from "./roundCell"
 import { useState } from "react"
 import { type RoundGridProps } from "./props"
 
-
 const LEVEL_WIDTH = 40
 const NUM_ROWS = 9
 const ROW_SIZE = 6
@@ -36,8 +35,34 @@ export function RoundGrid(props: RoundGridProps) {
     if (/^[a-zA-Z\s]$/.test(e.key)) { typeLetter(e.key) }
     // if the user is backspacing
     if (e.key === "Backspace") { deleteLetter() }
+    if (e.key == "ArrowLeft") { moveSelected(workingDirection === "clockwise" ? "clockwise" : "outward") }
+    if (e.key == "ArrowRight") { moveSelected(workingDirection === "clockwise" ? "anticlockwise" : "inward") }
 
     window.removeEventListener('keydown', keydownHandler)
+  }
+
+  const moveSelected = (direction: string) => {
+    let selectedI = parseInt(selected.split(',')[0])
+    let selectedJ = parseInt(selected.split(',')[1])
+
+    switch (direction) {
+      case "clockwise":
+        if (rowWords[(selectedI + 1) % numRows][selectedJ] !== blankChar) {
+          setSelected(`${(selectedI + 1) % numRows},${selectedJ}`)
+        } break;
+      case "anticlockwise":
+        if (rowWords[(selectedI - 1 + numRows) % numRows][selectedJ] !== blankChar) {
+          setSelected(`${(selectedI - 1 + numRows) % numRows},${selectedJ}`)
+        } break;
+      case "inward":
+        if (rowWords[selectedI][(selectedJ - 1 + rowSize) % rowSize] !== blankChar) {
+          setSelected(`${selectedI},${(selectedJ - 1 + rowSize) % rowSize}`)
+        } break;
+      case "outward":
+        if (rowWords[selectedI][(selectedJ + 1 + rowSize) % rowSize] !== blankChar) {
+          setSelected(`${selectedI},${(selectedJ + 1 + rowSize) % rowSize}`)
+        } break;
+    }
   }
 
   const changeLetter = (i: number, j: number, letter: string): string[] => {
@@ -59,17 +84,7 @@ export function RoundGrid(props: RoundGridProps) {
     if ((selectedI !== undefined) && (selectedJ != undefined)) {
       let newRowWords = changeLetter(selectedI, selectedJ, letter)
       setRowWords(newRowWords)
-
-      if (workingDirection === "clockwise") {
-        if (rowWords[(selectedI + 1) % numRows][selectedJ] !== blankChar) {
-          setSelected(`${(selectedI + 1) % numRows},${selectedJ}`)
-        }
-      } else if (workingDirection === "inward") {
-        if (rowWords[selectedI][(selectedJ - 1 + rowSize) % rowSize] !== blankChar) {
-          setSelected(`${selectedI},${(selectedJ - 1 + rowSize) % rowSize}`)
-        }
-      }
-
+      moveSelected(workingDirection)
     }
   }
 
@@ -80,16 +95,7 @@ export function RoundGrid(props: RoundGridProps) {
     if ((selectedI !== undefined) && (selectedJ != undefined)) {
       let newRowWords = changeLetter(selectedI, selectedJ, " ")
       setRowWords(newRowWords)
-
-      if (workingDirection === "clockwise") {
-        if (rowWords[(selectedI - 1 + numRows) % numRows][selectedJ] !== blankChar) {
-          setSelected(`${(selectedI - 1 + numRows) % numRows},${selectedJ}`)
-        }
-      } else if (workingDirection === "inward") {
-        if (rowWords[selectedI][(selectedJ + 1 + rowSize) % rowSize] !== blankChar) {
-          setSelected(`${selectedI},${(selectedJ + 1 + rowSize) % rowSize}`)
-        }
-      }
+      moveSelected(workingDirection === "clockwise" ? "anticlockwise" : "outward")
     }
   }
 
