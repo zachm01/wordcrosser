@@ -2,7 +2,7 @@ import { type CluesProps } from "./props"
 
 export function ClueList(props: CluesProps) {
   const clueSets = props.clueSets
-  const highlightedClue = props.puzzleContext.highlightedClues
+  const highlightedClue = props.puzzleContext.highlightedClue
   const setSelectedCell = props.puzzleContext.setSelectedCell
   const workingDirection = props.puzzleContext.workingDirection
   const setWorkingDirection = props.puzzleContext.setWorkingDirection
@@ -23,7 +23,7 @@ export function ClueList(props: CluesProps) {
                       <div 
                         className={`
                           w-64 px-1 grid grid-cols-[1.8rem,8fr] cursor-pointer
-                          ${(highlightedClue.includes(`${clue.number}-${clue.set}`)) && clue.set == workingDirection ? "bg-yellow-400" : ""}
+                          ${(highlightedClue == `${clue.number}-${clue.set}` && clue.set == workingDirection) ? "bg-yellow-400" : ""}
                         `}
                         onClick={() => {
                           setSelectedCell(clue.allCells[0])

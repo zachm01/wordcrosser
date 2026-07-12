@@ -5,8 +5,8 @@ interface PuzzleContext {
   setGrid: React.Dispatch<SetStateAction<string[]>>;
   selectedCell: string;
   setSelectedCell: React.Dispatch<SetStateAction<string>>;
-  highlightedClues: string[];
-  setHighlightedClues: React.Dispatch<SetStateAction<string[]>>;
+  highlightedClue: string;
+  setHighlightedClue: React.Dispatch<SetStateAction<string>>;
   workingDirection: string;
   setWorkingDirection: React.Dispatch<SetStateAction<string>>;
 }

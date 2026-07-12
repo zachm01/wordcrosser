@@ -10,13 +10,13 @@ import type { PuzzleContext } from './props'
 function App() {
   const [grid, setGrid] = useState<string[]>(puzzle.grid.map(row => row.split('').reverse().join('').toUpperCase()))
   const [selectedCell, setSelectedCell] = useState<string>("")
-  const [highlightedClues, setHighlightedClues] = useState<string[]>([])
+  const [highlightedClue, setHighlightedClue] = useState<string>("")
   const [workingDirection, setWorkingDirection] = useState<string>("clockwise")
 
   const context: PuzzleContext = {
     grid, setGrid,
     selectedCell, setSelectedCell,
-    highlightedClues, setHighlightedClues,
+    highlightedClue, setHighlightedClue,
     workingDirection, setWorkingDirection
   }
 
@@ -34,23 +34,17 @@ function App() {
   })
 
   useEffect(() => {
-    let newHighlightedClues = []
     for (let clueSet of clues) {
       for (let clue of clueSet.clues) {
+        if (clue.set.toLowerCase() != workingDirection)  { continue }
         if (clue.allCells.includes(selectedCell)) {
-          newHighlightedClues.push(`${clue.number}-${clue.set}`)
+          setHighlightedClue(`${clue.number}-${clue.set}`)
+          return
         }
       }
     }
-    
-    setHighlightedClues(newHighlightedClues)
-
-    // if (Object.keys(numberedCells).includes(selectedCell)) {
-    //   setHighlightedClue(numberedCells[selectedCell])
-    // } else {
-    //   setHighlightedClue(-1)
-    // }
-  }, [selectedCell])
+    setHighlightedClue("")
+  }, [selectedCell, workingDirection])
 
   useEffect(() => {
     let rowsCorrect = 0
@@ -69,7 +63,7 @@ function App() {
 
         <div>
           <div className="w-[32rem] h-24">
-            <div className={highlightedClues.length != 0 ? "w-full p-2 bg-blue-300" : ""}>
+            <div className={highlightedClue != "" ? "w-full p-2 bg-blue-300" : ""}>
               {
                 clues.map(clueSet => {
                   for (let clue of clueSet.clues) {
