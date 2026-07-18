@@ -1,19 +1,25 @@
 import { RoundCell } from "./roundCell"
 import { type RoundGridProps } from "./props"
+import { useState } from "react"
 
 const LEVEL_WIDTH = 40
 const NUM_ROWS = 9
 const ROW_SIZE = 6
 const ARC_ANGLE = 360 / NUM_ROWS
-const BLANK_CHAR = "."
+const BLOCK_CHAR = "."
 
+const emptyFill = "#ffffff"
 const selectedFill = "#fedd3a"
 const adjSelectedFill = "#8cd4fb"
+const incorrectFill = "#f9aaaa"
+const incorrectSelectedFill = "#ffa600"
+const incorrectAdjSelectedFill = "#fb8cba"
+const blockFill = "#000000"
 
 export function RoundGrid(props: RoundGridProps) {
   const rowSize = props.rowSize ?? ROW_SIZE
   const arcAngle = props.arcAngle ?? ARC_ANGLE
-  const blankChar = props.blankChar ?? BLANK_CHAR
+  const blockChar = props.blockChar ?? BLOCK_CHAR
   const numRows = props.numRows ?? NUM_ROWS
   const levelWidth = props.levelWidth ?? LEVEL_WIDTH
   const numberedCells = props.numberedCells
@@ -21,10 +27,12 @@ export function RoundGrid(props: RoundGridProps) {
   const [selected, setSelected] = [props.puzzleContext.selectedCell, props.puzzleContext.setSelectedCell]
   const [workingDirection, setWorkingDirection] = [props.puzzleContext.workingDirection, props.puzzleContext.setWorkingDirection]
   // const [rowWords, setRowWords] = useState<string[]>(props.rowWords.map(word => word.toUpperCase()))
-  const rowWords = props.puzzleContext.grid
-  const setRowWords = props.puzzleContext.setGrid
+  const grid = props.puzzleContext.grid
+  const setGrid = props.puzzleContext.setGrid
+  const answerKey = props.puzzleContext.answerKey
+  const puzzleChecked = props.puzzleContext.puzzleChecked
   
-  if (rowWords.length < rowSize) { setRowWords(rowWords.concat(blankChar.repeat(rowSize - rowWords.length))) }
+  if (grid.length < rowSize) { setGrid(grid.concat(blockChar.repeat(rowSize - grid.length))) }
   
   const keydownHandler = (e: KeyboardEvent) => {
     window.removeEventListener('keydown', keydownHandler)
@@ -56,27 +64,27 @@ export function RoundGrid(props: RoundGridProps) {
 
     switch (direction) {
       case "clockwise":
-        if (rowWords[(selectedI + 1) % numRows][selectedJ] !== blankChar) {
+        if (grid[(selectedI + 1) % numRows][selectedJ] !== blockChar) {
           setSelected(`${(selectedI + 1) % numRows},${selectedJ}`)
         } break;
       case "anticlockwise":
-        if (rowWords[(selectedI - 1 + numRows) % numRows][selectedJ] !== blankChar) {
+        if (grid[(selectedI - 1 + numRows) % numRows][selectedJ] !== blockChar) {
           setSelected(`${(selectedI - 1 + numRows) % numRows},${selectedJ}`)
         } break;
       case "inward":
-        if (rowWords[selectedI][(selectedJ - 1 + rowSize) % rowSize] !== blankChar) {
+        if (grid[selectedI][(selectedJ - 1 + rowSize) % rowSize] !== blockChar) {
           setSelected(`${selectedI},${(selectedJ - 1 + rowSize) % rowSize}`)
         } break;
       case "outward":
-        if (rowWords[selectedI][(selectedJ + 1 + rowSize) % rowSize] !== blankChar) {
+        if (grid[selectedI][(selectedJ + 1 + rowSize) % rowSize] !== blockChar) {
           setSelected(`${selectedI},${(selectedJ + 1 + rowSize) % rowSize}`)
         } break;
     }
   }
 
   const changeLetter = (i: number, j: number, letter: string): string[] => {
-    let newRowWords = [...rowWords]
-    newRowWords[i] = rowWords[i]
+    let newRowWords = [...grid]
+    newRowWords[i] = grid[i]
       .split("")
       .map((char, jx) => {
         if (jx === j) { return letter.toUpperCase() }
@@ -92,7 +100,7 @@ export function RoundGrid(props: RoundGridProps) {
 
     if ((selectedI !== undefined) && (selectedJ != undefined)) {
       let newRowWords = changeLetter(selectedI, selectedJ, letter)
-      setRowWords(newRowWords)
+      setGrid(newRowWords)
       moveSelected(workingDirection)
     }
   }
@@ -103,7 +111,7 @@ export function RoundGrid(props: RoundGridProps) {
 
     if ((selectedI !== undefined) && (selectedJ != undefined)) {
       let newRowWords = changeLetter(selectedI, selectedJ, " ")
-      setRowWords(newRowWords)
+      setGrid(newRowWords)
       moveSelected(workingDirection === "clockwise" ? "anticlockwise" : "outward")
     }
   }
@@ -111,7 +119,7 @@ export function RoundGrid(props: RoundGridProps) {
   window.addEventListener('keydown', keydownHandler)
   
   const handleSelect = (i: number, j: number) => {
-    if (rowWords[i].charAt(j) !== blankChar) {
+    if (grid[i].charAt(j) !== blockChar) {
       if (selected === `${i},${j}` && workingDirection === "clockwise") {
         setWorkingDirection("inward")
       }
@@ -135,16 +143,33 @@ export function RoundGrid(props: RoundGridProps) {
               {
                 [...Array(rowSize)].map((_, j) => {
                   const address = `${i},${j}`
-                  let char = blankChar
-                  if (j < rowWords[i].length) { char = rowWords[i].charAt(j) }
-                  const isBlank = char === BLANK_CHAR
-                  const isSelected = selected == address
 
-                  let fill = "#ffffff"
-                  if (isBlank) { fill = "#000000" }
-                  else if (isSelected) { fill = selectedFill }
-                  else if (selected?.split(',')[0] == i.toString() && workingDirection == "inward") { fill = adjSelectedFill }
-                  else if (selected?.split(',')[1] == j.toString() && workingDirection == "clockwise") { fill = adjSelectedFill }
+                  // if allowed, set to the specified character in rowWords
+                  // if not allowed, set to the block character by default
+                  let char = j < grid[i].length ? grid[i].charAt(j) : blockChar
+                  
+                  const isBlock = char === blockChar
+                  const isBlank = char === " "
+                  const isSelected = selected == address
+                  const isSelectAdj = (
+                    selected?.split(',')[0] == i.toString() && workingDirection == "inward"
+                      ||
+                    selected?.split(',')[1] == j.toString() && workingDirection == "clockwise"
+                  )
+                  const isCorrect = char.toUpperCase() === answerKey[i].charAt(j).toUpperCase()
+
+                  let fill = emptyFill
+
+                  if (isBlock) { fill = blockFill }
+                  else if (isBlank) {
+                    if (isSelected) { fill = selectedFill}
+                    else if (isSelectAdj) { fill = adjSelectedFill }
+                  }
+                  else {
+                    if (isSelected) { fill = isCorrect ? selectedFill : (puzzleChecked ? incorrectSelectedFill : selectedFill) }
+                    else if (isSelectAdj) { fill = isCorrect ? adjSelectedFill : (puzzleChecked ? incorrectAdjSelectedFill : adjSelectedFill) }
+                    else { fill = isCorrect ? emptyFill : (puzzleChecked ? incorrectFill : emptyFill) }
+                  }
 
                   return (
                     <RoundCell
@@ -158,6 +183,7 @@ export function RoundGrid(props: RoundGridProps) {
                       handleSelect={handleSelect}
                       number={Object.keys(numberedCells).includes(address) ? numberedCells[address] : undefined}
                       thickWall={thickWallCells.includes(address)}
+                      showCorrect={isCorrect && puzzleChecked}
                     />
                   )
                 })

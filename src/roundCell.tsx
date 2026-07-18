@@ -1,4 +1,4 @@
-import { Group, Arc, Text } from "react-konva";
+import { Group, Arc, Line, Text } from "react-konva";
 import { type RoundCellProps }  from "./props";
 
 const START_X = -500
@@ -37,33 +37,34 @@ export function RoundCell(props: RoundCellProps) {
         strokeWidth={2}
         stroke="black"
       />
-      {
-        props.thickWall && (
-          <Arc
-            x={START_X}
-            y={START_Y}
-            angle={0}
-            rotation={i * arcAngle}
-            innerRadius={j * levelWidth}
-            outerRadius={(j + 1) * levelWidth}
-            fill={fill}
-            strokeWidth={12}
-            stroke="black"
-          />
-        )
-      }
       <Text
         x={START_X + textRadius * Math.cos(angleRadians(arcAngle / 2)) - CENTER_OFFSET_X}
         y={START_Y + textRadius * Math.sin(angleRadians(arcAngle / 2)) - CENTER_OFFSET_Y}
-        text={char}
+        text={char != "." ? char : " "}
         fontStyle="bold"
+        fill={props.showCorrect ? "#2350d6" : "#000000"}
       />
+      {
+        props.thickWall && (
+          <Arc
+          x={START_X}
+          y={START_Y}
+          angle={0}
+          rotation={i * arcAngle}
+          innerRadius={j * levelWidth}
+          outerRadius={(j + 1) * levelWidth}
+          fill={fill}
+          strokeWidth={12}
+          stroke="black"
+          />
+        )
+      }
       {
         (number != undefined) && (
           <Text
-            x={START_X + numRadius * Math.cos(angleRadians(j <= 3 ? 5 : 3)) - CENTER_OFFSET_X}
-            y={START_Y + numRadius * Math.sin(angleRadians(j <= 3 ? 5 : 3)) - CENTER_OFFSET_Y}
-            text={number.toString()}
+          x={START_X + numRadius * Math.cos(angleRadians(j <= 3 ? 5 : 3)) - CENTER_OFFSET_X}
+          y={START_Y + numRadius * Math.sin(angleRadians(j <= 3 ? 5 : 3)) - CENTER_OFFSET_Y}
+          text={number.toString()}
           />
         )
       }

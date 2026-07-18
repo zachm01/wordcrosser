@@ -15,14 +15,14 @@ export function ClueList(props: CluesProps) {
     <div className="flex flex-row items-start justify-center px-7">
       <div className="flex flex-row">
         {
-          clueSets.map((clueSet, _) => {
+          clueSets.map(clueSet => {
             return (
-              <div>
+              <div key={clueSet}>
                 <div className="font-extrabold text-md py-2">
                   {clueSet.toUpperCase()}
                 </div>
                 {
-                  clues.map(clue => {
+                  clues.map((clue, i) => {
                     if (clue.set != clueSet) { return }
                     return (
                       <div 
@@ -34,6 +34,7 @@ export function ClueList(props: CluesProps) {
                           setSelectedCell(clue.allCells[0])
                           setWorkingDirection(clueSet.toLowerCase())
                         }}
+                        key={i}
                       >
                         <span className="w-5 flex justify-end font-bold">{clue.number}</span>
                         <span>{clue.text}</span>

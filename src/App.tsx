@@ -1,7 +1,7 @@
 import { RoundGrid } from './roundGrid'
 import { ClueList } from './clueList'
 
-import { Stage, Layer } from 'react-konva'
+import { Stage, Layer, Line } from 'react-konva'
 import { useEffect, useState } from 'react'
 
 import puzzle from './crossword.json'
@@ -12,12 +12,15 @@ function App() {
   const [selectedCell, setSelectedCell] = useState<string>("")
   const [highlightedClue, setHighlightedClue] = useState<string>("")
   const [workingDirection, setWorkingDirection] = useState<string>("clockwise")
+  const [puzzleChecked, setPuzzleChecked] = useState<boolean>(false)
+  const answerKey = puzzle.answers.map(row => row.split('').reverse().join('').toUpperCase())
 
   const context: PuzzleContext = {
-    grid, setGrid,
+    grid, setGrid, answerKey,
     selectedCell, setSelectedCell,
     highlightedClue, setHighlightedClue,
-    workingDirection, setWorkingDirection
+    workingDirection, setWorkingDirection,
+    puzzleChecked, setPuzzleChecked
   }
 
   const answers = puzzle.answers.map(row => row.split('').reverse().join('').toUpperCase())
@@ -52,8 +55,14 @@ function App() {
 
   return (
     <>
-      <div className="w-screen h-16 border-b-2 border-black flex flex-row items-center px-5">
+      <div className="w-screen h-16 border-b-2 border-black flex flex-row justify-between items-center px-5">
         <span className="font-extrabold text-3xl">{puzzle.title}</span>
+        <span
+          className="text-md cursor-pointer"
+          onClick={() => {setPuzzleChecked(!puzzleChecked)}}
+        >
+          Check
+        </span>
       </div>
       <div className="flex flex-row items-start justify-center py-6">
 
@@ -83,6 +92,13 @@ function App() {
             offsetY={window.innerHeight / -2}
           >
             <Layer>
+              <Line
+                points={[0,0, 500,500]}
+                stroke="red"
+                strokeWidth={100}
+                lineCap="round"
+                lineJoin="round"
+              />
               <RoundGrid
                 puzzleContext={context}
                 numRows={puzzle.dimensions.numRows}
