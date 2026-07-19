@@ -1,6 +1,5 @@
 import { RoundCell } from "./roundCell"
 import { type RoundGridProps } from "./props"
-import { useState } from "react"
 
 const LEVEL_WIDTH = 40
 const NUM_ROWS = 9
@@ -22,8 +21,8 @@ export function RoundGrid(props: RoundGridProps) {
   const blockChar = props.blockChar ?? BLOCK_CHAR
   const numRows = props.numRows ?? NUM_ROWS
   const levelWidth = props.levelWidth ?? LEVEL_WIDTH
-  const numberedCells = props.numberedCells
-  const thickWallCells = props.thickWallCells
+  const numberedCells = props.numberedCells ?? {}
+  const thickWallCells = props.thickWallCells ?? []
   const [selected, setSelected] = [props.puzzleContext.selectedCell, props.puzzleContext.setSelectedCell]
   const [workingDirection, setWorkingDirection] = [props.puzzleContext.workingDirection, props.puzzleContext.setWorkingDirection]
   // const [rowWords, setRowWords] = useState<string[]>(props.rowWords.map(word => word.toUpperCase()))
@@ -53,6 +52,29 @@ export function RoundGrid(props: RoundGridProps) {
         setWorkingDirection(workingDirection === "clockwise" ? "inward" : "clockwise"); break;
       case "ArrowDown":
         setWorkingDirection(workingDirection === "clockwise" ? "inward" : "clockwise"); break;
+      case "Enter":
+        let [_clueNum, _clueSet] = props.puzzleContext.highlightedClue.split("-")
+        const clueNum = parseInt(_clueNum)
+        const clueSet = _clueSet.toLowerCase()
+
+        let nextClue = props.puzzleContext.clues.find(
+          clue => clue.number === clueNum + 1 && clue.set === clueSet
+        )
+
+        if (!nextClue) {
+          const clueSets = Array.from(new Set(props.puzzleContext.clues.map(clue => clue.set)))
+          const nextClueSet = clueSets.find(set => set != props.puzzleContext.workingDirection)
+          nextClue = props.puzzleContext.clues.find(
+            clue => clue.set === nextClueSet
+          )
+        }
+
+        if (!nextClue) { break }
+
+        setWorkingDirection(nextClue.set)
+        setSelected(nextClue.allCells[0])
+  
+        break
     }
 
     window.removeEventListener('keydown', keydownHandler)
@@ -130,7 +152,7 @@ export function RoundGrid(props: RoundGridProps) {
         setSelected(`${i},${j}`)
       }
     } else {
-      setSelected(undefined)
+      setSelected("")
     }
   }
 
@@ -158,6 +180,7 @@ export function RoundGrid(props: RoundGridProps) {
                   )
                   const isCorrect = char.toUpperCase() === answerKey[i].charAt(j).toUpperCase()
 
+                  // handle cell color fill for checking the puzzle
                   let fill = emptyFill
 
                   if (isBlock) { fill = blockFill }
@@ -180,10 +203,10 @@ export function RoundGrid(props: RoundGridProps) {
                       levelWidth={levelWidth}
                       char={char}
                       fill={fill}
+                      textColor={isCorrect && puzzleChecked ? "#2350d6" : "#000000"}
                       handleSelect={handleSelect}
                       number={Object.keys(numberedCells).includes(address) ? numberedCells[address] : undefined}
                       thickWall={thickWallCells.includes(address)}
-                      showCorrect={isCorrect && puzzleChecked}
                     />
                   )
                 })
