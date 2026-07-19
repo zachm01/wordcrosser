@@ -1,7 +1,7 @@
 import { RoundGrid } from './roundGrid'
 import { ClueList } from './clueList'
 
-import { Stage, Layer, Line } from 'react-konva'
+import { Stage, Layer } from 'react-konva'
 import { useEffect, useState } from 'react'
 
 import puzzle from './crossword.json'
@@ -14,17 +14,15 @@ function App() {
   const [workingDirection, setWorkingDirection] = useState<string>("clockwise")
   const [puzzleChecked, setPuzzleChecked] = useState<boolean>(false)
   const answerKey = puzzle.answers.map(row => row.split('').reverse().join('').toUpperCase())
+  const clues = puzzle.clues
 
   const context: PuzzleContext = {
     grid, setGrid, answerKey,
     selectedCell, setSelectedCell,
-    highlightedClue, setHighlightedClue,
+    clues, highlightedClue, setHighlightedClue,
     workingDirection, setWorkingDirection,
     puzzleChecked, setPuzzleChecked
   }
-
-  const answers = puzzle.answers.map(row => row.split('').reverse().join('').toUpperCase())
-  const clues = puzzle.clues
 
   let numberedCells = {}
 
@@ -48,9 +46,9 @@ function App() {
   useEffect(() => {
     let rowsCorrect = 0
     grid.forEach((row, ix) => {
-      if (row == answers[ix]) { rowsCorrect += 1 }
+      if (row == answerKey[ix]) { rowsCorrect += 1 }
     })
-    if (rowsCorrect === answers.length) { window.alert("You finished the puzzle!") }
+    if (rowsCorrect === answerKey.length) { window.alert("You finished the puzzle!") }
   }, [grid])
 
   return (
@@ -92,13 +90,6 @@ function App() {
             offsetY={window.innerHeight / -2}
           >
             <Layer>
-              <Line
-                points={[0,0, 500,500]}
-                stroke="red"
-                strokeWidth={100}
-                lineCap="round"
-                lineJoin="round"
-              />
               <RoundGrid
                 puzzleContext={context}
                 numRows={puzzle.dimensions.numRows}

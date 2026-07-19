@@ -1,4 +1,4 @@
-import { Group, Arc, Line, Text } from "react-konva";
+import { Group, Arc, Text } from "react-konva";
 import { type RoundCellProps }  from "./props";
 
 const START_X = -500
@@ -42,7 +42,7 @@ export function RoundCell(props: RoundCellProps) {
         y={START_Y + textRadius * Math.sin(angleRadians(arcAngle / 2)) - CENTER_OFFSET_Y}
         text={char != "." ? char : " "}
         fontStyle="bold"
-        fill={props.showCorrect ? "#2350d6" : "#000000"}
+        fill={props.textColor ?? "#000000"}
       />
       {
         props.thickWall && (

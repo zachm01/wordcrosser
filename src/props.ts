@@ -6,6 +6,7 @@ interface PuzzleContext {
   answerKey: string[];
   selectedCell: string;
   setSelectedCell: React.Dispatch<SetStateAction<string>>;
+  clues: Clue[];
   highlightedClue: string;
   setHighlightedClue: React.Dispatch<SetStateAction<string>>;
   workingDirection: string;
@@ -33,9 +34,9 @@ interface RoundCellProps {
   char: string;
   fill: string;
   handleSelect: (i: number, j: number) => void;
+  textColor?: string;
   number?: number | undefined;
   thickWall?: boolean;
-  showCorrect?: boolean;
 }
 
 export interface Clue {
