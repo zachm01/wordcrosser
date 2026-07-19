@@ -1,11 +1,20 @@
-import { RoundGrid } from './roundGrid'
-import { ClueList } from './clueList'
-
 import { Stage, Layer } from 'react-konva'
 import { useEffect, useState } from 'react'
 
-import puzzle from './crossword.json'
+import { RoundGrid } from './roundGrid'
+import { ClueList } from './clueList'
 import type { PuzzleContext } from './props'
+import puzzle from './crossword.json'
+
+
+const renderTime = (timerSecs: number) => {
+  let hours = Math.floor(timerSecs / 3600);
+  let minutes = Math.floor((timerSecs - (hours * 3600)) / 60);
+  let seconds = timerSecs - (hours * 3600) - (minutes * 60);
+
+  return `${hours > 0 ? `${hours}:` : ''}${(minutes < 10 && hours > 0) ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
+}
+
 
 function App() {
   const [grid, setGrid] = useState<string[]>(puzzle.grid.map(row => row.split('').reverse().join('').toUpperCase()))
@@ -15,6 +24,16 @@ function App() {
   const [puzzleChecked, setPuzzleChecked] = useState<boolean>(false)
   const answerKey = puzzle.answers.map(row => row.split('').reverse().join('').toUpperCase())
   const clues = puzzle.clues
+
+  const [timer, setTimer] = useState<number>(10)
+  const [timerRunning, setTimerRunning] = useState<boolean>(true)
+
+  useEffect(() => {
+    let t = setTimeout(() => {
+      if (timerRunning) { setTimer(c => c + 1) }
+    }, 1000);
+    return () => { if (t) { clearTimeout(t) } }
+  }, [timer, timerRunning])
 
   const context: PuzzleContext = {
     grid, setGrid, answerKey,
@@ -62,7 +81,20 @@ function App() {
           Check
         </span>
       </div>
-      <div className="flex flex-row items-start justify-center py-6">
+      <div className="flex justify-center">
+        <div className="flex items-center justify-between w-24 py-2">
+          <span className="w-16 flex justify-end">
+            {renderTime(timer)}
+          </span>
+          <button onClick={() => setTimerRunning(!timerRunning)}>
+            <svg className="fill-gray-400 hover:fill-gray-700" width="16" height="16" viewBox="0 0 6.35 6.35">
+              <rect width="1.852" height="6.35" x=".794" ry="0"/>
+              <rect width="1.852" height="6.35" x="3.704" ry="0"/>
+            </svg>
+        </button>
+        </div>
+      </div>
+      <div className="flex flex-row items-start justify-center pb-6">
 
         <div>
           <div className="w-[32rem] h-24">
