@@ -23,6 +23,8 @@ export function RoundGrid(props: RoundGridProps) {
   const levelWidth = props.levelWidth ?? LEVEL_WIDTH
   const numberedCells = props.numberedCells ?? {}
   const thickWallCells = props.thickWallCells ?? []
+  const numberedCells = props.numberedCells ?? {}
+  const thickWallCells = props.thickWallCells ?? []
   const [selected, setSelected] = [props.puzzleContext.selectedCell, props.puzzleContext.setSelectedCell]
   const [workingDirection, setWorkingDirection] = [props.puzzleContext.workingDirection, props.puzzleContext.setWorkingDirection]
   // const [rowWords, setRowWords] = useState<string[]>(props.rowWords.map(word => word.toUpperCase()))
