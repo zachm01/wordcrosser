@@ -12,7 +12,7 @@
     "    ..",
     "    ..",
     "   ...",
-    "     .",
+    "    ..",
     "     ."
   ],
   "answers": [
@@ -21,10 +21,10 @@
     "oleds.",
     "redas.",
     "ball..",
-    "aped..",
-    "cho...",
-    "heirs.",
-    "erdos."
+    "aced..",
+    "chi...",
+    "hasr..",
+    "ethos."
   ],
   "thickWallCells": [
     "0,3"
@@ -50,7 +50,7 @@
     },
     {
       "number": 4,
-      "text": "Instruction seen on a parkour course, perhaps",
+      "text": "Landfill runoff",
       "allCells": ["2,4", "3,4", "4,4", "5,4", "6,4", "7,4", "8,4", "0,4"],
       "set": "clockwise"
     },
@@ -80,25 +80,25 @@
     },
     {
       "number": 8,
-      "text": "Poorly parrotted",
+      "text": "Got right",
       "allCells": ["5,5", "5,4", "5,3", "5,2"],
       "set": "inward"
     },
     {
       "number": 9,
-      "text": "Brief Harry Potter love interest",
+      "text": "Energy force literally translating to \"breath\"",
       "allCells": ["6,5", "6,4", "6,3"],
       "set": "inward"
     },
     {
       "number": 10,
-      "text": "Princes and princesses",
+      "text": "Was given an adult rating by the MPAA",
       "allCells": ["7,5", "7,4", "7,3", "7,2", "7,1"],
       "set": "inward"
     },
     {
       "number": 11,
-      "text": "Paul considered the Kevin Bacon of mathematics",
+      "text": "Appeal to credibility",
       "allCells": ["8,5", "8,4", "8,3", "8,2", "8,1"],
       "set": "inward"
     },
@@ -110,7 +110,7 @@
     },
     {
       "number": 13,
-      "text": "They might represent sample size or units of force",
+      "text": "They might represent units of force",
       "allCells": ["1,3", "1,2", "1,1"],
       "set": "inward"
     }
